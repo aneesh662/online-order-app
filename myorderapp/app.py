@@ -21,16 +21,14 @@ if not os.path.exists(EXCEL_FILE):
     df = pd.DataFrame(columns=["Customer Name", "Address", "Contact", "Email", "Item", "Quantity", "Total Price"])
     df.to_excel(EXCEL_FILE, index=False)
 
-
 def send_email(to_email, subject, body):
-    sender_email = "kodiyattilaneesh@gmail.com"  # Replace with your email
-    sender_password = "Akm@2541662"  # Use app password if Gmail
+    sender_email = "youremail@gmail.com"
+    sender_password = "your_app_password"
 
     msg = MIMEMultipart()
     msg['From'] = sender_email
     msg['To'] = to_email
     msg['Subject'] = subject
-
     msg.attach(MIMEText(body, 'plain'))
 
     try:
@@ -38,10 +36,9 @@ def send_email(to_email, subject, body):
             server.starttls()
             server.login(sender_email, sender_password)
             server.send_message(msg)
-        print("Email sent successfully to", to_email)
+        print("Email sent to", to_email)
     except Exception as e:
         print("Error sending email:", e)
-
 
 @app.route("/", methods=["GET", "POST"])
 def index():
@@ -56,7 +53,6 @@ def index():
         product = next(p for p in products if p["id"] == item_id)
         total_price = product["price"] * quantity
 
-        # Save to Excel
         df = pd.read_excel(EXCEL_FILE)
         df = pd.concat([df, pd.DataFrame([{
             "Customer Name": customer_name,
@@ -69,7 +65,6 @@ def index():
         }])])
         df.to_excel(EXCEL_FILE, index=False)
 
-        # Send confirmation email
         subject = "Order Confirmation"
         body = f"Dear {customer_name},\n\n" \
                f"Thank you for ordering {quantity} {product['name']}(s).\n" \
@@ -79,9 +74,4 @@ def index():
         send_email(email, subject, body)
 
         return redirect(url_for("index"))
-
-    return render_template("index.html", products=products)
-
-
-if __name__ == "__main__":
-    app.run(debug=True)
+    return render_te_
