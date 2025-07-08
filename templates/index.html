@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Online Order</title>
+</head>
+<body>
+    <h1>Place Your Order</h1>
+    <form method="POST">
+        <h3>Customer Details</h3>
+        <label>Name:</label><br>
+        <input type="text" name="customer_name" required><br><br>
+
+        <label>Address:</label><br>
+        <textarea name="address" rows="3" required></textarea><br><br>
+
+        <label>Contact Number:</label><br>
+        <input type="text" name="contact" required><br><br>
+
+        <label>Email:</label><br>
+        <input type="email" name="email" required><br><br>
+
+        <h3>Order Details</h3>
+        <label>Select Item:</label><br>
+        <select name="item" required>
+            {% for product in products %}
+            <option value="{{ product.id }}">{{ product.name }} - AED {{ product.price }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        <label>Quantity:</label><br>
+        <input type="number" name="quantity" value="1" min="1" required><br><br>
+
+        <button type="submit">Place Order</button>
+    </form>
+</body>
+</html>
